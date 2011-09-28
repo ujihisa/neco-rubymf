@@ -1,6 +1,7 @@
 let s:source = {
       \ 'name': 'rubymf',
-      \ 'kind': 'plugin',
+      \ 'kind' : 'ftplugin',
+      \ 'filetypes': {'ruby': 1},
       \ }
 
 function! s:source.initialize()
@@ -11,19 +12,31 @@ function! s:source.finalize()
 endfunction
 
 function! s:source.get_keyword_pos(cur_text)
-  return s:last_matchend(a:cur_text[:getpos('.')[2]], '\W')
+  if a:cur_text =~ '\.$' "&& getline('.') =~ '#=> .\+$'
+    "echomsg string(['pos', getpos('.')[2] - 1])
+    return 0
+    return getpos('.')[2]
+  end
+  return -1
 endfunction
 
-function! s:source.get_keyword_list(cur_keyword_str)
-  echo a:cur_keyword_str
-  if a:cur_keyword_str =~ '^d\(r\(i\(k\(in\?\)\?\)\?\)\?\)\?$'
-    return [{'word': '青木剛一', 'menu': 'rubymf'}]
+function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)
+  let input_obj = a:cur_keyword_str[:-2] "matchstr(a:cur_keyword_str, '^.\{-}\. #=> ')[0:-7]
+  let output_obj = getline('.')[5:] "matchstr(a:cur_keyword_str, '#=> .\+$')[4:]
+  "echomsg string(['input/output objs', input_obj, output_obj])
+  if !input_obj || !output_obj
+    return []
   endif
-  return []
+  let mf0 = neocomplcache#system(printf(
+        \ 'ruby -rmethodfinder -e "puts MethodFinder.find(%s, %s)"',
+        \ input_obj,
+        \ output_obj))
+  let mf1 = split(mf0, "\n")
+  return map(mf1, "{'word': '" . a:cur_keyword_str . "' . v:val, 'menu': 'rubymf'}")
 endfunction
 
 function! neocomplcache#sources#rubymf#define()
-  return {}
+  " TODO: make sure if you have methodfinder
   return s:source
 endfunction
 
