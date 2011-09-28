@@ -9,7 +9,7 @@ Tatsuhiro Ujihisa <http://ujihisa.blogspot.com/>
 ## Installation
 
 * (Install Ruby 1.9.3 unless you have it)
-* gem install methodfiner
+* gem install methodfinder
 * install neocomplcache unless you have it
 * install me
 
