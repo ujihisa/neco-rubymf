@@ -24,15 +24,14 @@ function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)
   let input_obj = a:cur_keyword_str[:-2] "matchstr(a:cur_keyword_str, '^.\{-}\. #=> ')[0:-7]
   let output_obj = getline('.')[5:] "matchstr(a:cur_keyword_str, '#=> .\+$')[4:]
   "echomsg string(['input/output objs', input_obj, output_obj])
-  if !input_obj || !output_obj
+  if input_obj ==# '' || output_obj ==# ''
     return []
   endif
-  let mf0 = neocomplcache#system(printf(
-        \ 'ruby -rmethodfinder -e "puts MethodFinder.find(%s, %s)"',
-        \ input_obj,
-        \ output_obj))
+  let mf0 = neocomplcache#system(
+        \ 'ruby -rmethodfinder',
+        \ printf("puts MethodFinder.find(%s, %s)", input_obj, output_obj))
   let mf1 = split(mf0, "\n")
-  return map(mf1, "{'word': '" . a:cur_keyword_str . "' . v:val, 'menu': 'rubymf'}")
+  return map(mf1, "{'word': '" . a:cur_keyword_str . "' . v:val, 'menu': '[rubymf]'}")
 endfunction
 
 function! neocomplcache#sources#rubymf#define()
