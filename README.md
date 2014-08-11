@@ -22,4 +22,4 @@ GPL-3 or later.
 ## Documentation
 
 * <http://ujihisa.blogspot.com/2011/10/completing-method-names-in-ruby-based.html> (in English)
-* <http://vim-users.jp/2011/09/hack231/> (in Japanese)
+* <http://vim-jp.org/vim-users-jp/2011/09/20/Hack-231.html> (in Japanese)
