@@ -12,7 +12,7 @@ Tatsuhiro Ujihisa <http://ujihisa.blogspot.com/>
 
 * (Install Ruby 1.9.3+ unless you have it)
 * `gem install methodfinder`
-* install neocomplcache unless you have it
+* install neocomplcache(or neocomplete) unless you have it
 * install me
 
 ## License

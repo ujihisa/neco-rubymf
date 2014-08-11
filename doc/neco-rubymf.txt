@@ -10,6 +10,8 @@ INTRODUCTION					*neco-rubymf-introduction*
 
 *neco-rubymf* is a neocomplcache plugin to integrate methodfinder.
 
+Now *neco-rubymf* support neocomplete plugin.
+
 ==============================================================================
 AUTHOR						*neco-rubymf-author*
 
